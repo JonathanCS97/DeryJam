@@ -28,12 +28,12 @@ export function Checkout() {
     cardNumber: "",
     expiryDate: "",
     cvv: "",
-    paymentMethod: "card"
+    paymentMethod: "transfer"
   });
 
   const subtotal = getTotalPrice();
-  const shipping = subtotal > 500 ? 0 : 80;
-  const tax = subtotal * 0.16;
+  const shipping = 0;
+  const tax = 0;
   const total = subtotal + shipping + tax;
 
   const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -43,21 +43,18 @@ export function Checkout() {
     });
   };
 
-  const handlePaymentChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handlePaymentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPaymentData({
       ...paymentData,
       [e.target.name]: e.target.value
     });
   };
 
-  const handleShippingSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleShippingSubmit = () => {
     setCurrentStep("payment");
   };
 
-  const handlePaymentSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Generate order number
+  const handlePaymentSubmit = () => {
     const orderNum = "DRJ" + Date.now().toString().slice(-8);
     setOrderNumber(orderNum);
     setCurrentStep("confirmation");
@@ -131,7 +128,7 @@ export function Checkout() {
           </div>
         </div>
 
-        {/* Cart Review Step */}
+        {/* CARRITO */}
         {currentStep === "cart" && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
@@ -139,7 +136,7 @@ export function Checkout() {
                 <h2 className="text-2xl mb-6 text-emerald-900">Revisar Carrito</h2>
                 <div className="space-y-4">
                   {items.map((item) => (
-                    <div key={item.id} className="flex gap-4 pb-4 border-b">
+                    <div key={item.id} className="flex gap-4 pb-4 border-b last:border-b-0">
                       <div className="w-24 h-24 flex-shrink-0 rounded overflow-hidden">
                         <ImageWithFallback
                           src={item.image}
@@ -166,16 +163,16 @@ export function Checkout() {
                               +
                             </button>
                           </div>
-                          <button
-                            onClick={() => removeFromCart(item.id)}
-                            className="text-red-500 text-sm hover:text-red-700"
-                          >
-                            Eliminar
-                          </button>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <p className="text-emerald-600 text-lg">
+                      <div className="flex flex-col items-end gap-2">
+                        <button
+                          onClick={() => removeFromCart(item.id)}
+                          className="text-red-500 text-sm hover:text-red-700"
+                        >
+                          Eliminar
+                        </button>
+                        <p className="text-emerald-600 text-lg font-medium">
                           ${(item.price * item.quantity).toFixed(2)}
                         </p>
                       </div>
@@ -193,15 +190,7 @@ export function Checkout() {
                     <span>Subtotal:</span>
                     <span>${subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between text-gray-600">
-                    <span>Envío:</span>
-                    <span>{shipping === 0 ? "¡Gratis!" : `$${shipping.toFixed(2)}`}</span>
-                  </div>
-                  <div className="flex justify-between text-gray-600">
-                    <span>IVA (16%):</span>
-                    <span>${tax.toFixed(2)}</span>
-                  </div>
-                  <div className="border-t pt-3 flex justify-between text-lg">
+                  <div className="border-t pt-3 flex justify-between text-lg font-medium">
                     <span>Total:</span>
                     <span className="text-emerald-600">${total.toFixed(2)}</span>
                   </div>
@@ -218,7 +207,7 @@ export function Checkout() {
           </div>
         )}
 
-        {/* Shipping Step */}
+        {/* ENVÍO */}
         {currentStep === "shipping" && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
@@ -228,7 +217,7 @@ export function Checkout() {
                   <h2 className="text-2xl text-emerald-900">Información de Envío</h2>
                 </div>
 
-                <form onSubmit={handleShippingSubmit} className="space-y-4">
+                <div className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-gray-700 mb-2">Nombre Completo *</label>
@@ -242,7 +231,6 @@ export function Checkout() {
                         placeholder="Juan Pérez"
                       />
                     </div>
-
                     <div>
                       <label className="block text-gray-700 mb-2">Email *</label>
                       <input
@@ -296,7 +284,6 @@ export function Checkout() {
                         placeholder="Ciudad"
                       />
                     </div>
-
                     <div>
                       <label className="block text-gray-700 mb-2">Estado *</label>
                       <input
@@ -309,7 +296,6 @@ export function Checkout() {
                         placeholder="Estado"
                       />
                     </div>
-
                     <div>
                       <label className="block text-gray-700 mb-2">Código Postal *</label>
                       <input
@@ -335,25 +321,7 @@ export function Checkout() {
                       placeholder="Referencias, instrucciones especiales, etc."
                     />
                   </div>
-
-                  <div className="flex gap-4 pt-4">
-                    <button
-                      type="button"
-                      onClick={() => setCurrentStep("cart")}
-                      className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
-                    >
-                      <ChevronLeft className="h-5 w-5" />
-                      Volver
-                    </button>
-                    <button
-                      type="submit"
-                      className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
-                    >
-                      Continuar al Pago
-                      <ChevronRight className="h-5 w-5" />
-                    </button>
-                  </div>
-                </form>
+                </div>
               </div>
             </div>
 
@@ -365,30 +333,38 @@ export function Checkout() {
                     <span>Subtotal:</span>
                     <span>${subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between text-gray-600">
-                    <span>Envío:</span>
-                    <span>{shipping === 0 ? "¡Gratis!" : `$${shipping.toFixed(2)}`}</span>
-                  </div>
-                  <div className="flex justify-between text-gray-600">
-                    <span>IVA (16%):</span>
-                    <span>${tax.toFixed(2)}</span>
-                  </div>
                   <div className="border-t pt-3 flex justify-between text-lg">
                     <span>Total:</span>
                     <span className="text-emerald-600">${total.toFixed(2)}</span>
                   </div>
                 </div>
-                {subtotal < 500 && (
-                  <p className="text-sm text-gray-600 bg-emerald-50 p-3 rounded">
-                    ¡Agrega ${(500 - subtotal).toFixed(2)} más para envío gratis!
-                  </p>
-                )}
+
+                {/* Mensaje de envío gratis eliminado */}
+
+                <div className="flex gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentStep("cart")}
+                    className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                    Volver
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleShippingSubmit}
+                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+                  >
+                    Continuar al Pago
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* Payment Step */}
+        {/* PAGO - SOLO TRANSFERENCIA */}
         {currentStep === "payment" && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
@@ -398,158 +374,80 @@ export function Checkout() {
                   <h2 className="text-2xl text-emerald-900">Información de Pago</h2>
                 </div>
 
-                <form onSubmit={handlePaymentSubmit} className="space-y-6">
+                <div className="space-y-6">
                   <div>
-                    <label className="block text-gray-700 mb-3">Método de Pago</label>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <label className="flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-emerald-500">
-                        <input
-                          type="radio"
-                          name="paymentMethod"
-                          value="card"
-                          checked={paymentData.paymentMethod === "card"}
-                          onChange={handlePaymentChange}
-                          className="mr-3"
-                        />
+                    <label className="block text-gray-700 mb-3 font-medium">Método de Pago</label>
+                    <div className="p-4 border-2 border-emerald-500 rounded-lg bg-emerald-50">
+                      <div className="flex items-center gap-3">
+                        <CreditCard className="h-6 w-6 text-emerald-600" />
                         <div>
-                          <p className="font-semibold">Tarjeta</p>
-                          <p className="text-sm text-gray-500">Crédito/Débito</p>
+                          <p className="font-semibold">Transferencia Bancaria</p>
+                          <p className="text-sm text-gray-600">
+                            Realiza la transferencia a la cuenta indicada y confirma tu pedido.
+                          </p>
                         </div>
-                      </label>
-
-                      <label className="flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-emerald-500">
-                        <input
-                          type="radio"
-                          name="paymentMethod"
-                          value="paypal"
-                          checked={paymentData.paymentMethod === "paypal"}
-                          onChange={handlePaymentChange}
-                          className="mr-3"
-                        />
-                        <div>
-                          <p className="font-semibold">PayPal</p>
-                          <p className="text-sm text-gray-500">Pago seguro</p>
-                        </div>
-                      </label>
-
-                      <label className="flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-emerald-500">
-                        <input
-                          type="radio"
-                          name="paymentMethod"
-                          value="oxxo"
-                          checked={paymentData.paymentMethod === "oxxo"}
-                          onChange={handlePaymentChange}
-                          className="mr-3"
-                        />
-                        <div>
-                          <p className="font-semibold">OXXO</p>
-                          <p className="text-sm text-gray-500">Pago en efectivo</p>
-                        </div>
-                      </label>
+                      </div>
                     </div>
                   </div>
 
-                  {paymentData.paymentMethod === "card" && (
-                    <>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-gray-700 mb-2">Nombre del Titular *</label>
+                      <input
+                        type="text"
+                        name="cardName"
+                        required
+                        value={paymentData.cardName}
+                        onChange={handlePaymentChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        placeholder="JUAN PEREZ"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-700 mb-2">Número de Cuenta o CLABE (para referencia) *</label>
+                      <input
+                        type="text"
+                        name="cardNumber"
+                        required
+                        value={paymentData.cardNumber}
+                        onChange={handlePaymentChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        placeholder="Ej: 1234 5678 9012 3456 o CLABE completa"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-gray-700 mb-2">Nombre en la Tarjeta *</label>
+                        <label className="block text-gray-700 mb-2">Fecha aproximada de transferencia *</label>
                         <input
                           type="text"
-                          name="cardName"
+                          name="expiryDate"
                           required
-                          value={paymentData.cardName}
+                          value={paymentData.expiryDate}
                           onChange={handlePaymentChange}
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                          placeholder="JUAN PEREZ"
+                          placeholder="DD/MM/AAAA"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-gray-700 mb-2">Número de Tarjeta *</label>
+                        <label className="block text-gray-700 mb-2">Últimos 4 dígitos (opcional)</label>
                         <input
                           type="text"
-                          name="cardNumber"
-                          required
-                          value={paymentData.cardNumber}
+                          name="cvv"
+                          value={paymentData.cvv}
                           onChange={handlePaymentChange}
-                          maxLength={19}
+                          maxLength={4}
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                          placeholder="1234 5678 9012 3456"
+                          placeholder="1234"
                         />
                       </div>
-
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-gray-700 mb-2">Fecha de Vencimiento *</label>
-                          <input
-                            type="text"
-                            name="expiryDate"
-                            required
-                            value={paymentData.expiryDate}
-                            onChange={handlePaymentChange}
-                            maxLength={5}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                            placeholder="MM/AA"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-gray-700 mb-2">CVV *</label>
-                          <input
-                            type="text"
-                            name="cvv"
-                            required
-                            value={paymentData.cvv}
-                            onChange={handlePaymentChange}
-                            maxLength={4}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                            placeholder="123"
-                          />
-                        </div>
-                      </div>
-                    </>
-                  )}
-
-                  {paymentData.paymentMethod === "paypal" && (
-                    <div className="bg-blue-50 p-6 rounded-lg text-center">
-                      <p className="text-gray-700 mb-4">
-                        Serás redirigido a PayPal para completar tu pago de forma segura.
-                      </p>
-                      <div className="text-4xl mb-2">💳</div>
                     </div>
-                  )}
-
-                  {paymentData.paymentMethod === "oxxo" && (
-                    <div className="bg-yellow-50 p-6 rounded-lg">
-                      <p className="text-gray-700 mb-4">
-                        Al confirmar, recibirás una ficha de pago para pagar en cualquier tienda OXXO.
-                      </p>
-                      <ul className="text-sm text-gray-600 space-y-2">
-                        <li>• Válido por 3 días</li>
-                        <li>• Tu pedido se procesará al confirmar el pago</li>
-                        <li>• Recibirás la ficha por email</li>
-                      </ul>
-                    </div>
-                  )}
-
-                  <div className="flex gap-4 pt-4">
-                    <button
-                      type="button"
-                      onClick={() => setCurrentStep("shipping")}
-                      className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
-                    >
-                      <ChevronLeft className="h-5 w-5" />
-                      Volver
-                    </button>
-                    <button
-                      type="submit"
-                      className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
-                    >
-                      Confirmar Pedido
-                      <CheckCircle className="h-5 w-5" />
-                    </button>
                   </div>
-                </form>
+
+                  {/* Mensaje de datos bancarios eliminado */}
+                </div>
               </div>
             </div>
 
@@ -561,31 +459,42 @@ export function Checkout() {
                     <span>Subtotal:</span>
                     <span>${subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between text-gray-600">
-                    <span>Envío:</span>
-                    <span>{shipping === 0 ? "¡Gratis!" : `$${shipping.toFixed(2)}`}</span>
-                  </div>
-                  <div className="flex justify-between text-gray-600">
-                    <span>IVA (16%):</span>
-                    <span>${tax.toFixed(2)}</span>
-                  </div>
                   <div className="border-t pt-3 flex justify-between text-xl">
                     <span>Total:</span>
                     <span className="text-emerald-600">${total.toFixed(2)}</span>
                   </div>
                 </div>
 
-                <div className="bg-emerald-50 p-4 rounded-lg">
-                  <p className="text-sm text-emerald-800">
-                    🔒 Pago 100% seguro y protegido
+                <div className="bg-emerald-50 p-4 rounded-lg mb-6">
+                  <p className="text-sm text-emerald-800 flex items-center gap-2">
+                    <span className="text-lg">🔒</span> Pago 100% seguro y protegido
                   </p>
+                </div>
+
+                <div className="flex gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentStep("shipping")}
+                    className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                    Volver
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handlePaymentSubmit}
+                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+                  >
+                    Confirmar Pedido
+                    <CheckCircle className="h-5 w-5" />
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* Confirmation Step */}
+        {/* CONFIRMACIÓN */}
         {currentStep === "confirmation" && (
           <div className="max-w-2xl mx-auto">
             <div className="bg-white rounded-lg shadow-md p-8 text-center">
@@ -601,7 +510,7 @@ export function Checkout() {
               <div className="bg-gray-50 p-6 rounded-lg mb-6">
                 <p className="text-sm text-gray-600 mb-2">Número de Pedido</p>
                 <p className="text-2xl text-emerald-600 mb-4">{orderNumber}</p>
-                
+
                 <div className="border-t pt-4 space-y-3">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Total Pagado:</span>
@@ -609,11 +518,7 @@ export function Checkout() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Método de Pago:</span>
-                    <span>
-                      {paymentData.paymentMethod === "card" && "Tarjeta"}
-                      {paymentData.paymentMethod === "paypal" && "PayPal"}
-                      {paymentData.paymentMethod === "oxxo" && "OXXO"}
-                    </span>
+                    <span>Transferencia Bancaria</span>
                   </div>
                 </div>
               </div>
@@ -631,7 +536,7 @@ export function Checkout() {
 
               <p className="text-gray-600 mb-6">
                 Hemos enviado un correo de confirmación a <strong>{shippingData.email}</strong> con
-                los detalles de tu pedido.
+                los datos bancarios para realizar la transferencia y los detalles de tu pedido.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
