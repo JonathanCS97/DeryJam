@@ -21,7 +21,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         onClick={onClose}
       />
       
-      {/* Drawer - Fondo beige completo */}
+      {/* Fondo beige completo */}
       <div className="fixed right-0 top-0 h-full w-full sm:w-96 bg-[#F7F1E1] shadow-xl z-50 flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
