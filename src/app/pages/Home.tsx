@@ -10,7 +10,7 @@ export function Home() {
   const featuredProducts = [
     {
       id: 1,
-      name: "Miel Orgánica",
+      name: "Miel Orgánicaaa",
       price: 180,
       image: "https://images.unsplash.com/photo-1566216867955-5b2e8c77e45f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcmdhbmljJTIwbmF0dXJhbCUyMHByb2R1Y3RzJTIwaG9uZXl8ZW58MXx8fHwxNzc0Mjc3Njk5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       description: "Miel 100% natural de flores silvestres"
