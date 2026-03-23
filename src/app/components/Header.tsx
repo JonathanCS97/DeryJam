@@ -32,7 +32,7 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <ShoppingBag className="h-8 w-8 text-emerald-600" />
-            <span className="text-2xl font-bold text-emerald-800">deryjam1</span>
+            <span className="text-2xl font-bold text-emerald-800">deryjam2</span>
           </Link>
 
           {/* Desktop Navigation */}
