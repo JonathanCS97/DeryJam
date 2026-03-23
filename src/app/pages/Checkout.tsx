@@ -67,12 +67,12 @@ export function Checkout() {
 
   if (items.length === 0 && currentStep !== "confirmation") {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[#F7F1E1] flex items-center justify-center px-4">
         <div className="text-center">
-          <h2 className="text-2xl mb-4 text-gray-700">Tu carrito está vacío</h2>
+          <h2 className="text-2xl mb-4 text-gray-800">Tu carrito está vacío</h2>
           <button
             onClick={() => navigate("/productos")}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg transition-colors"
+            className="bg-[#89030f] hover:bg-[#6e020a] text-white px-6 py-3 rounded-lg transition-colors shadow-md"
           >
             Ver Productos
           </button>
@@ -91,7 +91,7 @@ export function Checkout() {
   const currentStepIndex = steps.findIndex(s => s.id === currentStep);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-[#F7F1E1] py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Progress Steps */}
         <div className="mb-8">
@@ -128,7 +128,7 @@ export function Checkout() {
           </div>
         </div>
 
-        {/* CARRITO */}
+        {/* === CARRITO === */}
         {currentStep === "cart" && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
@@ -197,7 +197,7 @@ export function Checkout() {
                 </div>
                 <button
                   onClick={() => setCurrentStep("shipping")}
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+                  className="w-full bg-[#89030f] hover:bg-[#6e020a] text-white py-3 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md"
                 >
                   Continuar al Envío
                   <ChevronRight className="h-5 w-5" />
@@ -207,7 +207,7 @@ export function Checkout() {
           </div>
         )}
 
-        {/* ENVÍO */}
+        {/* === ENVÍO === */}
         {currentStep === "shipping" && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
@@ -284,6 +284,7 @@ export function Checkout() {
                         placeholder="Ciudad"
                       />
                     </div>
+
                     <div>
                       <label className="block text-gray-700 mb-2">Estado *</label>
                       <input
@@ -296,6 +297,7 @@ export function Checkout() {
                         placeholder="Estado"
                       />
                     </div>
+
                     <div>
                       <label className="block text-gray-700 mb-2">Código Postal *</label>
                       <input
@@ -339,8 +341,6 @@ export function Checkout() {
                   </div>
                 </div>
 
-                {/* Mensaje de envío gratis eliminado */}
-
                 <div className="flex gap-4">
                   <button
                     type="button"
@@ -353,7 +353,7 @@ export function Checkout() {
                   <button
                     type="button"
                     onClick={handleShippingSubmit}
-                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 bg-[#89030f] hover:bg-[#6e020a] text-white py-3 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md"
                   >
                     Continuar al Pago
                     <ChevronRight className="h-5 w-5" />
@@ -364,7 +364,7 @@ export function Checkout() {
           </div>
         )}
 
-        {/* PAGO - SOLO TRANSFERENCIA */}
+        {/* === PAGO === */}
         {currentStep === "payment" && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
@@ -445,8 +445,6 @@ export function Checkout() {
                       </div>
                     </div>
                   </div>
-
-                  {/* Mensaje de datos bancarios eliminado */}
                 </div>
               </div>
             </div>
@@ -483,7 +481,7 @@ export function Checkout() {
                   <button
                     type="button"
                     onClick={handlePaymentSubmit}
-                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 bg-[#89030f] hover:bg-[#6e020a] text-white py-3 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md"
                   >
                     Confirmar Pedido
                     <CheckCircle className="h-5 w-5" />
@@ -494,7 +492,7 @@ export function Checkout() {
           </div>
         )}
 
-        {/* CONFIRMACIÓN */}
+        {/* === CONFIRMACIÓN === */}
         {currentStep === "confirmation" && (
           <div className="max-w-2xl mx-auto">
             <div className="bg-white rounded-lg shadow-md p-8 text-center">
@@ -542,7 +540,7 @@ export function Checkout() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={handleFinish}
-                  className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg transition-colors"
+                  className="flex-1 bg-[#89030f] hover:bg-[#6e020a] text-white py-3 rounded-lg transition-colors shadow-md"
                 >
                   Volver al Inicio
                 </button>
