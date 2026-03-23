@@ -17,7 +17,7 @@ export function Home() {
     },
     {
       id: 2,
-      name: "Mermelada Artesanal",
+      name: "Mermelada Jamaica",
       price: 120,
       image: "https://images.unsplash.com/photo-1757489345191-07ea9f17a0a1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcmdhbmljJTIwamFtJTIwcHJlc2VydmVzJTIwamFyc3xlbnwxfHx8fDE3NzQyNzc3MDJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       description: "Mermeladas caseras sin conservadores"
